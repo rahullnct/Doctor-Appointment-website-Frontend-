@@ -8,7 +8,7 @@ function Appointment(){
    const naviagte=useNavigate();
     let {id}=useParams();
     // console.log(id);
-    const {doctors}=useContext(AppContext);
+    const {doctors,doctor_list}=useContext(AppContext);
     const[docinfo,setdocinfo]=useState([]);
     const[docSlots,setdocSlots]=useState([]);
     const[slotTime,setslotTime]=useState(0);
@@ -16,7 +16,7 @@ function Appointment(){
     console.log(docinfo);
    
    
-    const all_info= doctors.filter((doc)=>doc._id === id)
+    const all_info= doctor_list.filter((doc)=>doc._id === id)
     const filterdocinfo=()=>{
        setdocinfo(all_info);
     }
@@ -65,7 +65,7 @@ function Appointment(){
     }
     useEffect(()=>{
       filterdocinfo();
-    },[id,doctors])
+    },[id,doctor_list])
 
     useEffect(()=>{
      doctorSlots();
@@ -81,10 +81,10 @@ function Appointment(){
           {
             docinfo.map((all_data)=>(
             <div className="single_doctor_info">
-               <img src={all_data.image} alt="doc_info_img" className="doc_info_img"/> 
+               <img src={`http://localhost:4000${all_data.myimage}`} alt="doc_info_img" className="doc_info_img"/> 
                <div className="doc_info">
 
-                <h2 className="doc_name">{all_data.name} <img src={assets.verified_icon} alt="verified_icons" className="verified_icon"/></h2>
+                <h2 className="doc_name">{all_data.fullname} <img src={assets.verified_icon} alt="verified_icons" className="verified_icon"/></h2>
                 <span className="doc_academic">
                   <span className="doc_degree">{all_data.degree}</span>
                   <span className="doc_speciality">{all_data.speciality}</span>

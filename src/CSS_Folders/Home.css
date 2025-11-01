@@ -266,6 +266,17 @@
   border-radius: 20px;
   margin-bottom: 12px;
 }
+.available_not{
+   display: inline-block;
+  list-style: none;
+  padding: 6px 12px;
+  background: red; /* green for available */
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 20px;
+  margin-bottom: 12px;
+}
 
 .doctor_name {
   display: block;

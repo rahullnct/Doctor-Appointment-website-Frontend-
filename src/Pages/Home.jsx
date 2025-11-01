@@ -1,9 +1,13 @@
 import { useNavigate } from "react-router-dom"; 
 import { assets,specialityData,doctors} from "../assets/assets.js";
  import '../CSS_Folders/Home.css';
+import { useContext } from "react";
+import { AppContext } from "../MyContext/AppContext.jsx";
+import Loader from "./Loader.jsx";
   function Home(){
+     const{doctor_list}=useContext(AppContext);
+     console.log("doctor list:",doctor_list);
      const navigate=useNavigate(); 
-
       const date= new Date();
       const Today= date.getDate();
       console.log(Today);
@@ -43,14 +47,44 @@ import { assets,specialityData,doctors} from "../assets/assets.js";
                    <p className="doctor_view_subheading">Quality healthcare made simple with top-rated doctors, seamless bookings, and reliable support at every step of your journey.</p>
                    <div className="all_doctors">
                     {
-                        doctors.slice(0,10).map((only_doctor)=>(
-                        <div className="single_doctor_container" onClick={()=> navigate(`/doctor/${only_doctor._id}`)}>
-                                <img src={only_doctor.image} alt='doctor_image' className="doctor_image"/>
-                                 <li className="available_or_not">Available</li>
-                                 <span className="doctor_name">{only_doctor.name}</span>
-                                 <span className="doctor_speciality">{only_doctor.speciality}</span>
-                        </div>
-                        ))
+
+                        // doctor_list.slice(0,10).map((only_doctor)=>(
+
+                        // <div className="single_doctor_container" onClick={()=> navigate(`/doctor/${only_doctor._id}`)}>
+                        //         <img src={`http://localhost:4000${only_doctor.myimage}`} alt='doctor_image' className="doctor_image"/>
+                        //          {
+                        //             only_doctor.available === true ? (<li className="available_or_not">Available</li>) : (<li className="available_not"> Not Available</li>)
+                        //          }
+                        //          <span className="doctor_name">{only_doctor.fullname}</span>
+                        //          <span className="doctor_speciality">{only_doctor.speciality}</span>
+                        // </div>
+                        // ))
+                       
+   doctor_list.length > 0 ? (
+    doctor_list
+      .filter((doc) => doc.available)
+      .slice(0, 10)
+      .map((only_doctor) => (
+        <div
+          key={only_doctor._id}
+          className="single_doctor_container"
+          onClick={() => navigate(`/doctor/${only_doctor._id}`)}
+        >
+          <img
+            src={`http://localhost:4000${only_doctor.myimage}`}
+            alt="doctor_image"
+            className="doctor_image"
+          />
+          <li className="available_or_not">Available</li>
+          <span className="doctor_name">{only_doctor.fullname}</span>
+          <span className="doctor_speciality">{only_doctor.speciality}</span>
+        </div>
+      ))
+  ) : (
+    <Loader />
+  )
+
+
                     }
                    </div>
                    <button className='show_all_doctors_btn' onClick={()=>navigate('/alldoctors')}>Show More</button>

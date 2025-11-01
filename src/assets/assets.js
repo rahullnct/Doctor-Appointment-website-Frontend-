@@ -15,6 +15,7 @@ import info_icon from './info_icon.svg'
 import upload_icon from './upload_icon.png'
 import stripe_logo from './stripe_logo.png'
 import razorpay_logo from './razorpay_logo.png'
+import upload_area from  './upload_area.png';
 import doc1 from './doc1.png'
 import doc2 from './doc2.png'
 import doc3 from './doc3.png'
@@ -54,6 +55,7 @@ export const assets = {
     cross_icon,
     dropdown_icon,
     upload_icon,
+    upload_area,
     stripe_logo,
     razorpay_logo,
     doc1

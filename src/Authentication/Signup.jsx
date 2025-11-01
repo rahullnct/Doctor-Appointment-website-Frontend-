@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import './Signup.css';
+import axios from "axios";
+import { AppContext } from "../MyContext/AppContext";
 function Signup(){
+  const{backend_url,token,settoken}=useContext(AppContext);
     const[signupdata,setsignupdata]=useState({
         fullname:"",email:"", password:""
     })
@@ -12,14 +15,29 @@ function Signup(){
          [event.target.name]:event.target.value
         }))
     }
-    function signuphandler(event){
-        event.preventDefault();
-        setsignupdata({
-            fullname:"",
+     async function signuphandler(event){
+        event.preventDefault(); 
+        try{
+          const{fullname,email,password}=signupdata;
+           const {data}= await axios.post(backend_url+'/api/v1/user/signin',{fullname,email,password});
+            if(data.success){
+              localStorage.setItem('token',data.token);
+            settoken(data.token)
+            setsignupdata({
             email:"",
-            password:""
-        })
-    }
+            password:"",
+            fullname:""
+            })
+           }
+           else{
+            console.log("some error in signin");
+           }
+        }catch(error){
+          console.log(error);
+        }
+    };
+
+    
     return(
         <div className="signup_wrapper">
           <div className="signup_container">

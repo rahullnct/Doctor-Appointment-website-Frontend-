@@ -13,6 +13,7 @@ import Appointment from './Pages/Appointment';
 import AllDoctor from './Pages/AllDoctor';
 import SpecilityDoctor from './Components/SpecilityDoctor';
 import { ScrollTop } from './Components/ScrollTop';
+import MyProfile from './Pages/MyProfile';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
   <Route path="doctor/:id" element={<Appointment/>} />
   <Route path="alldoctors" element={<AllDoctor/>} />
   <Route path="signup" element={<Signup />} />
+  <Route path='/myprofile' element={<MyProfile/>}/>
   {/* <Route path="appointment/:id" element={<Appointment/>} /> */}
   <Route path="alldoctors/:speciality" element={<AllDoctor/>} />
    {/* <Route path="specilist_doctor/:specility" element={<SpecilityDoctor/>} /> */}

@@ -6,23 +6,24 @@ import '../CSS_Folders/AllDoc.css';
 function AllDoctor(){
     const navigate=useNavigate();
     let {speciality}=useParams();
-    const {doctors}=useContext(AppContext);
+    const {doctors,doctor_list}=useContext(AppContext);
     const specilities= new Set(doctors.map((new_doc)=> new_doc.speciality));
     const specilities_array= [...specilities];
 
     const[filterdoc,setfilterdoc]=useState([]);
+    // console.log("filter_doc:",filterdoc);/
 
     const filterDoctor=()=>{
         if(speciality){
-            setfilterdoc(doctors.filter((doc)=> doc.speciality === speciality))
+            setfilterdoc(doctor_list.filter((doc)=> doc.speciality === speciality))
         }
         else{
-            setfilterdoc(doctors);
+            setfilterdoc(doctor_list);
         }
     }
     useEffect(()=>{
          filterDoctor();
-    },[speciality , doctors]);
+    },[speciality , doctor_list]);
     console.log(filterdoc);
     return(
         <div className="all_doctors_wrapper">
@@ -39,9 +40,11 @@ function AllDoctor(){
                   {
                     filterdoc.map((all_dc)=>(
                         <div className="all_doc_info" onClick={()=>navigate(`/doctor/${all_dc._id}`)}>
-                          <img src={all_dc.image} alt='doctor_image' className="doc_img"/>
-                                 <li className="avil_not">Available</li>
-                                 <span className="doc_name">{all_dc.name}</span>
+                          <img src={`http://localhost:4000${all_dc.myimage}`} alt='doctor_image' className="doc_img"/>
+                                 {
+                                    all_dc.available === true ? (<li className="avil_not">Available</li> ):(<li className="avileb_not"> Not Available</li> )
+                                 }
+                                 <span className="doc_name">{all_dc.fullname}</span>
                                  <span className="doc_specility">{all_dc.speciality}</span>
                         </div>
                     ))

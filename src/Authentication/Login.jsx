@@ -1,22 +1,45 @@
-import { useState } from "react"; 
+import { useContext, useState } from "react"; 
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import '../Authentication/Login.css';
+import axios from "axios";
+import { AppContext } from "../MyContext/AppContext";
 function Login()
 {
-    const [loginsetup, setloginsetup] = useState({ username: "", password: "" }) 
+    const [loginsetup, setloginsetup] = useState({ email: "", password: "" }) 
     const [showpassword, setshowpassword] = useState(false);
+    const{token,settoken,backend_url}=useContext(AppContext);
+    const navigate=useNavigate();
     function changehandler(event) 
     {
      setloginsetup((prev) =>
          ({ ...prev,
              [event.target.name]: event.target.value })) 
     } 
-    function submithandler(event)
+    async function submithandler(event)
     { 
        event.preventDefault();
-        setloginsetup({ username: "", password: "" }) 
+       try{
+         const{email,password}=loginsetup;
+         const{data}= await axios.post(backend_url+'/api/v1/user/login',{email,password})
+    // console.log(data);
+       if(data.success){
+        localStorage.setItem('token',data.loginToken);
+        settoken(data.loginToken);
+        setloginsetup({
+            email:"",
+            password:""
+        })
+        navigate('/');
+       }
+       else{
+        console.log("problem in login page");
+       }
+       }catch(error){
+        console.log(error);
+       }
+        // setloginsetup({ username: "", password: "" }) 
     }
     return (
     <div className="login_wrapper">
@@ -26,11 +49,11 @@ function Login()
                 <p className="login_subheading">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur fugiat ea libero a magnam! Porro officia ratione quia autem quis! Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, deserunt.</p>
                 </div>
                 <form onSubmit={submithandler} className="login_form">
-                <label htmlFor="username" className="for_username">Username Or Email</label>
+                <label htmlFor="email" className="for_username">Email</label>
                 <input className="inp_username" 
-                type="text"
-                name="username" 
-                value={loginsetup.username}
+                type="email"
+                name="email" 
+                value={loginsetup.email}
                 onChange={changehandler}
                 required />
                 <label htmlFor="password" className="for_password">Password</label> 
