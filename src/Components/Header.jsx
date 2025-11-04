@@ -4,10 +4,12 @@ import { useContext, useState } from "react";
 import { assets } from "../assets/assets.js";
 import { FaChevronDown } from "react-icons/fa";
 import { AppContext } from "../MyContext/AppContext.jsx";
+import { MdOutlineMenu } from "react-icons/md";
+import { RxCross1 } from "react-icons/rx";
 function Header() {
     const [showdropdown, setshowdropdown] = useState(false);
     const { token, settoken } = useContext(AppContext);
-    // const[token,settoken]=useState(true);
+    const [toggle_menu, settoggle_menu] = useState(false);
 
     const logouthandler = () => {
         settoken('');
@@ -18,15 +20,21 @@ function Header() {
         setshowdropdown(!showdropdown);
     }
 
+    function togglemenu_handler() {
+        settoggle_menu(!toggle_menu);
+    }
     return (
         <div className="navbar_start">
             <nav className="navbar">
                 <h2 className="logo"><Link to='/'>Logo</Link></h2>
-                <ul className="navbar_links">
-                    <li><Link to='/'>Home</Link></li>
-                    <li><Link to='/about'>AboutUs</Link></li>
-                    <li><Link to='/alldoctors'>Doctors</Link></li>
-                    <li><Link to='/contact'>Contact</Link></li>
+
+
+
+                <ul className={`navbar_links ${toggle_menu ? "active" : ""}`}>
+                    <li><Link to='/' onClick={() => settoggle_menu(false)}>Home</Link></li>
+                    <li><Link to='/about' onClick={() => settoggle_menu(false)}>AboutUs</Link></li>
+                    <li><Link to='/alldoctors' onClick={() => settoggle_menu(false)}>Doctors</Link></li>
+                    <li><Link to='/contact' onClick={() => settoggle_menu(false)}>Contact</Link></li>
                 </ul>
                 <div className="all_dropdowns">
                     {
@@ -39,7 +47,7 @@ function Header() {
                                         <div className="page_links">
                                             <ul className="page_link_wrapper">
                                                 <li><Link to='/myprofile'>My Profile</Link></li>
-                                                <li><Link to='/appointment'> My Appoitment</Link></li>
+                                                <li><Link to='/myappointment'> My Appoitment</Link></li>
                                                 <li onClick={logouthandler}>Logout</li>
                                             </ul>
                                         </div>
@@ -51,6 +59,11 @@ function Header() {
                     }
                 </div>
 
+                <div className="hamberger_menus" onClick={togglemenu_handler}>
+                    {
+                        toggle_menu ? (<RxCross1 />) : (<MdOutlineMenu />)
+                    }
+                </div>
 
             </nav>
         </div>

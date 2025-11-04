@@ -27,6 +27,7 @@
   display: flex;
   align-items: center;
   gap: 25px;
+  transition: all 0.3s ease;
 }
 .navbar_links li a{
   text-decoration: none;
@@ -66,6 +67,7 @@
   align-items: center;
   gap: 6px;
   cursor: pointer;
+  margin-right: 25px;
 }
 .navbar_profileimage{
   width: 38px;
@@ -110,7 +112,58 @@
   text-decoration: none;
   color: inherit;
 }
+.hamberger_menus{
+  display: none;
+  font-size: 26px;
+  color: #007bff;
+  cursor:  pointer;
+  transition: transform 0.3s ease;
+}
+.hamberger_menus:hover{
+  transform: scale(1.1);
+}
 @media(max-width:768px){
+  .navbar{
+    flex-wrap: wrap;
+    position: relative;
+  }
+  .navbar_links{
+    position: absolute;
+    top: 65px;
+    left: 0;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(0,0,0,0.1);
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.8);
+    padding: 20px 0;
+    gap: 18px;
+    transform: translateY(-220%);
+    transition: transform 0.4s ease;
+    z-index: 999;
+  }
+  .navbar_links.active{
+    transform: translateY(0);
+  }
+  .navbar_links li a{
+    font-size: 17px;
+    color: #333;
+    font-weight: 500;
+  }
+  .hamberger_menus{
+    display: block;
+  }
+  .all-dropdowns{
+    display: none;
+  }
+  .logo{
+    flex: 1;
+  }
+}
+
+/* @media(max-width:768px){
   .navbar{
     flex-wrap: wrap;
   }
@@ -123,4 +176,4 @@
   .navbar_links li a{
     font-size: 15px;
   }
-}
+} */

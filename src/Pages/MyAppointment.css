@@ -1,0 +1,109 @@
+.myappointment_container{
+    width: 100%;
+    min-height: 100vh;
+    background: #f8fbff;
+    padding: 40px 8%;
+    font-family: "Poppins",sans-serif;
+}
+.myappointment_heading{
+    text-align: center;
+    color: #0d47a1;
+    font-size: 2.2rem;
+    margin-bottom: 40px;
+    position: relative;
+}
+.myappointment_heading::after{
+    content:"";
+    width: 120px;
+    height: 4px;
+    background: #42a5f5;
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 2px;
+}
+.apponted_doctors{
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    align-items: center;
+}
+.all_doctor_details{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    background: #fff;
+    width: 100%;
+    max-width: 850px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    padding: 20px;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease-in-out;
+}
+.all_doctor_details:hover{
+    transform: translateY(-4px);
+    box-shadow: 0 6px 25px rgba(0,0,0,0.12);
+}
+.all_doctor_details img{
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #42a5f5;
+    margin-right: 20px;
+}
+.doc_details{
+    flex: 1;
+}
+.doctor_name{
+    font-size: 1.3rem;
+    color: #0d47a1;
+    margin-bottom: 5px;
+}
+.doc_speaciality{
+    color: #555;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+.all_address{
+    color: #555;
+    font-size: 0.9rem;
+    margin-top: 8px;
+}
+.d\\&t{
+    margin-top: 12px;
+    font-size: 0.9rem;
+    color: #333;
+    font-weight: 500;
+}
+.payment_cancel_appointment{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-end;
+}
+.payment, 
+.cancel_appointment{
+    padding: 8px 18px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+.payment{
+    background: #42a5f5;
+    color: #fff;
+}
+.payment:hover{
+    background: #1e88e5;
+}
+.cancel_appointment{
+    background: #e53935;
+}
+.cancel_appointment:hover{
+    background: #c62828;
+}

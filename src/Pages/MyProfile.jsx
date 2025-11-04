@@ -15,7 +15,7 @@ function MyProfile() {
         gender: "male",
         Dob: "10-25-2001"
     })
-    const [edit, setedit] = useState(true);
+    const [edit, setedit] = useState(false);
 
     return (
         <div className="myprofile_wrapper">

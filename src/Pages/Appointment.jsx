@@ -13,8 +13,10 @@ function Appointment(){
     const[docSlots,setdocSlots]=useState([]);
     const[slotTime,setslotTime]=useState(0);
 
-    console.log(docinfo);
-   
+    // console.log(docinfo);
+   function clickhandler(){
+        naviagte(`/myappointment`)
+   }
    
     const all_info= doctor_list.filter((doc)=>doc._id === id)
     const filterdocinfo=()=>{
@@ -113,7 +115,7 @@ function Appointment(){
               ))
              }
            </div>
-              <button className="btn">Book an appointment</button>
+              <button className="btn" onClick={clickhandler}>Book an appointment</button>
                </div>
              </div>   
             ))

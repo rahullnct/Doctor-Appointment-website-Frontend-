@@ -71,9 +71,10 @@ import Loader from "./Loader.jsx";
           onClick={() => navigate(`/doctor/${only_doctor._id}`)}
         >
           <img
+          className="doctor_image"
             src={`http://localhost:4000${only_doctor.myimage}`}
             alt="doctor_image"
-            className="doctor_image"
+            
           />
           <li className="available_or_not">Available</li>
           <span className="doctor_name">{only_doctor.fullname}</span>
