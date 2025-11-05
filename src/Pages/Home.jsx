@@ -5,8 +5,9 @@ import { useContext } from "react";
 import { AppContext } from "../MyContext/AppContext.jsx";
 import Loader from "./Loader.jsx";
   function Home(){
-     const{doctor_list}=useContext(AppContext);
-     console.log("doctor list:",doctor_list);
+     const{doctor_list,userData}=useContext(AppContext);
+
+     console.log("User Datas:",userData);
      const navigate=useNavigate(); 
       const date= new Date();
       const Today= date.getDate();

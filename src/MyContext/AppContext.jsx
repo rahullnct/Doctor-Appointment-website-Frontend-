@@ -62,6 +62,8 @@ const ContextProvider = (props) => {
     userprofile,
     token,
     settoken,
+    userData,
+    setuserData,
   }
 
   return <AppContext.Provider value={value}>
