@@ -1,33 +1,83 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { assets } from "../assets/assets";
 import "./Myprofile.css";
 import { AppContext } from "../MyContext/AppContext";
-
+import axios from "axios";
 function MyProfile() {
-    const{userData,setuserData}=useContext(AppContext);
-    console.log("user datas:",userData);
-   
-    const[image,setimage]=useState(false);
+    const { userData, setuserData, userprofile, backend_url, token } = useContext(AppContext);
+    console.log("user datas:", userData);
+
+    const [image, setimage] = useState(null);
     const [edit, setedit] = useState(false);
+
+    const updateUserProfile = async () => {
+        try {
+
+            const formData = new FormData();
+            formData.append('fullname', userData.fullname)
+            formData.append('phone', userData.phone)
+            formData.append('address', JSON.stringify({
+                line1: userData?.address?.line1 || "",
+                line2: userData?.address?.line2 || ""
+            }));
+            // formData.append('line2',userData.address.line2)
+            formData.append('Dob', userData.Dob)
+
+            userData && formData.append('myimage', image)
+
+
+            const { data } = await axios.post(backend_url + 'api/v1/user/update-profile', formData, {
+                headers: {
+                    token: token
+                }
+            })
+            if (data.success) {
+                console.log("update_Data:", data);
+                await userprofile();
+                edit(false);
+                setimage(null);
+            }
+            else {
+                console.log("error in update_profile:", data.message);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 
     return userData && (
         <div className="myprofile_wrapper">
             <div className="myprofile_container">
-                {/* <img src={assets.doc1} alt="profile_image" className="profile_image"/>*/}
-                  {
-                    edit ? 
-                    <label htmlFor="images">
-                    <div className="profile_image_container">
-                        <img src={image ? URL.createObjectURL(image) : `http://localhost:4000${userData.image}`} alt="profile_image"/>
-                        <img src={image ? '' : assets.upload_area} alt="profile_image_not_shown"/>
-                    </div>
-                    <input onChange={(e)=>setimage(e.target.files[0])} type="file" id="images" hidden/>
-                    </label>
-                    : 
-                    (<img 
-                    src={`http://localhost:4000${userData.myimage}`} alt="upload_areas"/>
-                    )
-                  }
+                {
+                    edit ?
+                        <label htmlFor="images">
+                            <div className="profile_image_container">
+
+                                {/* here is the problem  (commented one below)*/}
+                                {/* <img
+                                    src={
+                                        image instanceof File
+                                            ? URL.createObjectURL(image)
+                                            : userData?.myimage
+                                                ? (userData.myimage.startsWith("http")
+                                                    ? userData.myimage
+                                                    : `http://localhost:4000${userData.myimage}`)
+                                                : assets.upload_area
+                                    }
+                                    alt="profile_image"
+                                /> */}
+                                <img src={image ? null : assets.upload_area} alt="profile_image_not_shown" />
+                            </div>
+                            <input onChange={(e) => setimage(e.target.files[0])} type="file" id="images" hidden />
+                        </label>
+                        :
+                        (<img
+                            src={`http://localhost:4000${userData.myimage}`}
+                            alt="user_image_database"
+                        />
+                        )
+                }
                 {
                     edit ? (<input
                         type="text"
@@ -37,7 +87,7 @@ function MyProfile() {
                             fullname: event.target.value
                         }))
                         }
-                    className="edit_value"/>) : (<p className="default_value">{userData.fullname}</p>)
+                        className="edit_value" />) : (<p className="default_value">{userData.fullname}</p>)
                 }
                 <div className="contact_info">
                     <h1>CONTACT INFORMATION</h1>
@@ -53,8 +103,8 @@ function MyProfile() {
                                         ...prev,
                                         address: { ...prev.address, line1: event.target.value }
                                     }))}
-                                
-                                className="edit_value"
+
+                                    className="edit_value"
                                 />
                                 <br />
                                 <input
@@ -64,7 +114,7 @@ function MyProfile() {
                                         ...prev,
                                         address: { ...prev.address, line2: event.target.value }
                                     }))}
-                                className="edit_value"
+                                    className="edit_value"
                                 />
                             </div>
                         ) : (<div className="adddress">
@@ -72,24 +122,18 @@ function MyProfile() {
                             <p className="first_address">{userData?.address?.line2 || ""}</p>
                         </div>)
                     }
-                    
+
                     </p>
-                
+
                 </div>
                 <div className="basic_info">
-                  <h1 className="basic_info_heading">BASIC INFORMATION</h1>
-                  <p>Gender:{edit ? (<select value={userData.gender} onChange={(event)=> setuserData(prev=>({...prev,
-                    gender:event.target.value
-                  }))} className="edit_value">
-                    <option value="male" className="edit_option_values">Male</option>
-                    <option value="female" className="edit_option_values">Female</option>
-                  </select>)
-                  :
-                  (<p className="default_value">{userData.gender}</p>)}</p>
-                
-                <p className="dob">DOB:{edit ? (<input type="date" value={userData.Dob} onChange={(event)=> setuserData(prev=>({...prev, Dob:event.target.value}))}/>):(<p className="default value">{userData.Dob}</p>)}</p>
-               </div>
-               {edit ?  <button className="save_info" onClick={()=>setedit(!edit)}>Save</button> : (<button  className='edit_btn' onClick={()=>setedit(!edit)}>Edit</button>)}
+                    <h1 className="basic_info_heading">BASIC INFORMATION</h1>
+                    <p>Gender:{
+                        (<p className="default_value">{userData.gender}</p>)}</p>
+
+                    <p className="dob">DOB:{edit ? (<input type="date" value={userData.Dob} onChange={(event) => setuserData(prev => ({ ...prev, Dob: event.target.value }))} />) : (<p className="default value">{userData.Dob}</p>)}</p>
+                </div>
+                {edit ? <button className="save_info" onClick={updateUserProfile}>Save</button> : (<button className='edit_btn' onClick={() => setedit(!edit)}>Edit</button>)}
             </div>
         </div>
     )

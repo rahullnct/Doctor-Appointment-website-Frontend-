@@ -43,7 +43,7 @@ const ContextProvider = (props) => {
     }
 
   }
-
+ 
   useEffect(() => {
     doctorList();
   }, [])
