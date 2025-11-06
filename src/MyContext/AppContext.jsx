@@ -16,9 +16,9 @@ const ContextProvider = (props) => {
 
     const { data } = await axios.get(backend_url + '/api/v1/doctor/list');
 
-    console.log("doctor list", data);
+    // console.log("doctor list", data);
     if (data.success) {
-      console.log(data);
+      // console.log(data);
       setdoctor_list(data.doctorlist);
     } else {
       console.log(data.message);
@@ -33,10 +33,10 @@ const ContextProvider = (props) => {
         token: token
       }
     })
-    console.log("user_details:",data);
+    // console.log("userprofile:",data.user);
     if(data.success){
-      console.log(data);
-      setuserData(true);
+      // console.log(data.user)s;
+      setuserData(data.user);
     }
     else{
       console.log("error message userdetails:",data.message);
@@ -49,7 +49,12 @@ const ContextProvider = (props) => {
   }, [])
 
   useEffect(()=>{
-    userprofile();
+    if(token){
+       userprofile();
+    }else{
+      setuserData(false);
+    }
+   
   },[token])
 
 
