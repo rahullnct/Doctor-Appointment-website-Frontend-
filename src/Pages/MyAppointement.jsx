@@ -3,7 +3,6 @@ import { AppContext } from "../MyContext/AppContext";
 import "./MyAppointment.css";
 function MyAppointment(){
     const{doctors}=useContext(AppContext);
-    // console.log("doctors data:",doctors);
     return(
         <div className="myappointment_container">
            <h1 className="myappointment_heading">My Appointemnt </h1>

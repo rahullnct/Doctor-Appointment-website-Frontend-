@@ -5,12 +5,11 @@ import { AppContext } from "../MyContext/AppContext";
 import axios from "axios";
 function MyProfile() {
     const { userData, setuserData, userprofile, backend_url, token } = useContext(AppContext);
-    console.log("user datas:", userData);
+    // console.log("user datas:", userData);
 
-    const [image, setimage] = useState(null);
+   
     const [edit, setedit] = useState(false);
-
-    const updateUserProfile = async () => {
+    const updateUserProfile = async() => {
         try {
 
             const formData = new FormData();
@@ -23,19 +22,18 @@ function MyProfile() {
             // formData.append('line2',userData.address.line2)
             formData.append('Dob', userData.Dob)
 
-            userData && formData.append('myimage', image)
-
-
-            const { data } = await axios.post(backend_url + 'api/v1/user/update-profile', formData, {
+    
+            const { data } = await axios.post(backend_url + '/api/v1/user/update-profile', formData, {
                 headers: {
-                    token: token
+                    token: token,
+                    'Content-Type': 'multipart/form-data'
                 }
             })
             if (data.success) {
                 console.log("update_Data:", data);
                 await userprofile();
-                edit(false);
-                setimage(null);
+                setedit(false);
+                // setimage(null);
             }
             else {
                 console.log("error in update_profile:", data.message);
@@ -49,35 +47,7 @@ function MyProfile() {
     return userData && (
         <div className="myprofile_wrapper">
             <div className="myprofile_container">
-                {
-                    edit ?
-                        <label htmlFor="images">
-                            <div className="profile_image_container">
-
-                                {/* here is the problem  (commented one below)*/}
-                                {/* <img
-                                    src={
-                                        image instanceof File
-                                            ? URL.createObjectURL(image)
-                                            : userData?.myimage
-                                                ? (userData.myimage.startsWith("http")
-                                                    ? userData.myimage
-                                                    : `http://localhost:4000${userData.myimage}`)
-                                                : assets.upload_area
-                                    }
-                                    alt="profile_image"
-                                /> */}
-                                <img src={image ? null : assets.upload_area} alt="profile_image_not_shown" />
-                            </div>
-                            <input onChange={(e) => setimage(e.target.files[0])} type="file" id="images" hidden />
-                        </label>
-                        :
-                        (<img
-                            src={`http://localhost:4000${userData.myimage}`}
-                            alt="user_image_database"
-                        />
-                        )
-                }
+                <img src={`http://localhost:4000${userData.myimage}`} alt="profile_image" />
                 {
                     edit ? (<input
                         type="text"

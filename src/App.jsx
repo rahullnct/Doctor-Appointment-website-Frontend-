@@ -1,6 +1,5 @@
 import viteLogo from '/vite.svg'
-import './App.css'
-// import NewComponents from './Components/FirstComponent';
+import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import Home from './Pages/Home';
 import About from './Pages/About';

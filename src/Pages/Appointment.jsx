@@ -8,15 +8,17 @@ function Appointment(){
    const naviagte=useNavigate();
     let {id}=useParams();
     // console.log(id);
-    const {doctors,doctor_list}=useContext(AppContext);
+    const {doctors,doctor_list,token,backend_url}=useContext(AppContext);
     const[docinfo,setdocinfo]=useState([]);
     const[docSlots,setdocSlots]=useState([]);
+    const[slotindex,setslotindex]=useState(0);
+   
     const[slotTime,setslotTime]=useState(0);
-
-    // console.log(docinfo);
-   function clickhandler(){
-        naviagte(`/myappointment`)
-   }
+ console.log("Doctor Slots:",docSlots[slotindex]);
+  //   // console.log(docinfo);
+  //  function clickhandler(){
+  //       naviagte(`/myappointment`)
+  //  }
    
     const all_info= doctor_list.filter((doc)=>doc._id === id)
     const filterdocinfo=()=>{
@@ -77,6 +79,19 @@ function Appointment(){
       console.log(docSlots);
     },[docinfo]);
 
+    const bookappointment=async()=>{
+       if(!token){
+        console.log("Token is not present");
+        return naviagte('/login');
+       }
+       try{
+          // const day=docSlots.
+       }
+       catch(error){
+        console.log("problem in book Appointment:",error);
+       }
+    }
+
     return(
         <div className="doctor_wrapper">
         <div className="doctor_container">
@@ -115,7 +130,7 @@ function Appointment(){
               ))
              }
            </div>
-              <button className="btn" onClick={clickhandler}>Book an appointment</button>
+              <button className="btn" onClick={bookappointment}>Book an appointment</button>
                </div>
              </div>   
             ))
