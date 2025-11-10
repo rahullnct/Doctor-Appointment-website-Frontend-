@@ -14,13 +14,18 @@ function Appointment(){
     const[slotindex,setslotindex]=useState(0);
    
     const[slotTime,setslotTime]=useState(0);
- console.log("Doctor Slots:",docSlots[slotindex]);
+//  console.log("Doctor Slots:",docSlots[slotindex]?.[0]?.datetime);
   //   // console.log(docinfo);
   //  function clickhandler(){
   //       naviagte(`/myappointment`)
   //  }
    
-    const all_info= doctor_list.filter((doc)=>doc._id === id)
+   const day=docSlots[slotindex]?.[0]?.datetime;
+   console.log("day:",day);
+   const date= new Date();
+   console.log("date:",date);
+
+  const all_info= doctor_list.filter((doc)=>doc._id === id)
     const filterdocinfo=()=>{
        setdocinfo(all_info);
     }
@@ -85,7 +90,9 @@ function Appointment(){
         return naviagte('/login');
        }
        try{
-          // const day=docSlots.
+          // const day=docSlots[slotindex][0]?.daytime;
+          // console.log("day:",day);
+          // const date= 
        }
        catch(error){
         console.log("problem in book Appointment:",error);
