@@ -13,7 +13,6 @@ function Appointment(){
     const[docinfo,setdocinfo]=useState([]);
     const[docSlots,setdocSlots]=useState([]);
     const[slottime,setslottime]=useState('');
-    
    
     const[slotTime,setslotTime]=useState(0);
 //  console.log("Doctor Slots:",docSlots[slotindex]?.[0]?.datetime);
@@ -106,7 +105,7 @@ function Appointment(){
           if(data.success){
             console.log("yes it is working");
             doctorList();
-            naviagte('/myappointment');
+            // naviagte('/myappointment');
           }
           else{
             console.log(data.message);
