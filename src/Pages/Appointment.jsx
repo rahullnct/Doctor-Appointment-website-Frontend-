@@ -4,14 +4,16 @@ import { AppContext } from "../MyContext/AppContext";
 import {assets} from "../assets/assets";
 import '../CSS_Folders/DocInfo.css';
 import RelatedDoctor from "../Components/RelatedDoctor";
+import axios from "axios";
 function Appointment(){
    const naviagte=useNavigate();
     let {id}=useParams();
     // console.log(id);
-    const {doctors,doctor_list,token,backend_url}=useContext(AppContext);
+    const {doctors,doctor_list,token,backend_url,doctorList,userData}=useContext(AppContext);
     const[docinfo,setdocinfo]=useState([]);
     const[docSlots,setdocSlots]=useState([]);
-    const[slotindex,setslotindex]=useState(0);
+    const[slottime,setslottime]=useState('');
+    
    
     const[slotTime,setslotTime]=useState(0);
 //  console.log("Doctor Slots:",docSlots[slotindex]?.[0]?.datetime);
@@ -20,10 +22,10 @@ function Appointment(){
   //       naviagte(`/myappointment`)
   //  }
    
-   const day=docSlots[slotindex]?.[0]?.datetime;
-   console.log("day:",day);
-   const date= new Date();
-   console.log("date:",date);
+  //  const day=docSlots[slotTime]?.[0]?.datetime;
+  //  console.log("day:",day);
+  //  const date= new Date();
+  //  console.log("date:",date);
 
   const all_info= doctor_list.filter((doc)=>doc._id === id)
     const filterdocinfo=()=>{
@@ -90,9 +92,26 @@ function Appointment(){
         return naviagte('/login');
        }
        try{
-          // const day=docSlots[slotindex][0]?.daytime;
-          // console.log("day:",day);
-          // const date= 
+        const docId=id;
+          const date= docSlots[slotTime]?.[0]?.datetime;
+          // console.log("date:",date);
+          let day = date.getDate();
+          let month=date.getMonth()+1;
+          let year=date.getFullYear();
+          
+          const book_date=day+'_'+month+'_'+year;
+          // console.log("todays_date:",day+'_'+month+'_'+year);
+
+          const {data}= await axios.post(backend_url+'/api/v1/user/myappointment',{slotDate:book_date,docId,slotTime:slottime,userId:userData._id},{headers:{token:token}})
+          if(data.success){
+            console.log("yes it is working");
+            doctorList();
+            naviagte('/myappointment');
+          }
+          else{
+            console.log(data.message);
+          }
+
        }
        catch(error){
         console.log("problem in book Appointment:",error);
@@ -131,7 +150,7 @@ function Appointment(){
           <div className="slottime">
              {
               docSlots.length && docSlots[slotTime].slice(0,8).map((only_time,index)=>(
-                <div key={index} className="timming_container">
+                <div key={index} className="timming_container" onClick={()=>setslottime(only_time.time)}>
                   <span className="timming">{only_time.time.toLowerCase()}</span>
                 </div>
               ))
