@@ -163,7 +163,7 @@ function Appointment() {
                 <div className="slottime">
                   {
                     docSlots.length && docSlots[slotTime]?.map((only_time, index) => (
-                      <div key={index} className={`timming_container ${slotTime==only_time.time ? "active":""}`} onClick={() => setslottime(only_time.time)}>
+                      <div key={index} className={`timming_container ${slotTime===only_time.time ? "active":""}`} onClick={() => setslottime(only_time.time)}>
                         <span className="timming">{only_time.time.toLowerCase()}</span>
                       </div>
                     ))

@@ -5,7 +5,7 @@ import { AppContext } from "../MyContext/AppContext";
 import axios from "axios";
 function MyProfile() {
     const { userData, setuserData, userprofile, backend_url, token } = useContext(AppContext);
-    // console.log("user datas:", userData);
+    console.log("user datas:", userData);
 
    
     const [edit, setedit] = useState(false);

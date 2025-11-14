@@ -1,11 +1,12 @@
 import { useNavigate } from "react-router-dom"; 
 import { assets,specialityData,doctors} from "../assets/assets.js";
  import '../CSS_Folders/Home.css';
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AppContext } from "../MyContext/AppContext.jsx";
 import Loader from "./Loader.jsx";
   function Home(){
      const{doctor_list}=useContext(AppContext);
+
 
     //  console.log("User Datas:",userData);
      const navigate=useNavigate(); 
