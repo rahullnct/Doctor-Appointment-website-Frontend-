@@ -5,15 +5,10 @@ import axios from "axios";
 function MyAppointment(){
     const{doctors,backend_url,token}=useContext(AppContext);
     const[appointment,setappointment]=useState([]);
-    console.log("appointment data:",appointment);
-  
-//  appointment.forEach((a, i) => {
-//    console.log(i, a.docData.myimage);
-// });
- console.log("Image URL:", `http://localhost:4000${appointment?.[1]?.docData?.myimage}`);
-// console.log("doc_data:", doc_data);
+    // console.log("appointment data:",appointment);
 
-function ChangeDates(slot_date){
+
+    function ChangeDates(slot_date){
     const Months=["","JAN","FEB","MAR","APR","MAY","JUNE","JULY","AUG","SEPT","OCT","NOV","DEC"];
     const newslotdate=slot_date.split("_");
     return newslotdate[0]+" "+Months[Number(newslotdate[1])]+" "+newslotdate[2];
@@ -29,12 +24,20 @@ function ChangeDates(slot_date){
                 console.log("yes appointment data is fetching")
                 setappointment(data.data.reverse())
             }
-
         }catch(error){
-
             console.log("error in appointment data fetching",error);
         }
 
+    }
+    const cancelappointment=async(_id)=>{
+       try{
+        const{data}= await axios.post(backend_url+'/api/v1/user/cancel_appointment',{_id},{headers:
+          {  token:token
+       }})
+       console.log("cancel appointment data",data);
+       }catch(error){
+        console.log("frontend Cancel Appointment problem",error);
+       }    
     }
     useEffect(()=>{
       if(token){
@@ -70,7 +73,7 @@ function ChangeDates(slot_date){
                 </div> 
                 <div className="payment_cancel_appointment">
                    <button className="payment">Pay here</button>
-                   <button className="cancel_appointment">Cancel Appointment</button>    
+                   <button className="cancel_appointment" onClick={()=>cancelappointment(doc_data._id)}>Cancel Appointment</button>    
                 </div>
                 </div>
                 ))
