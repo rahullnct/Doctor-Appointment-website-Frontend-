@@ -3,11 +3,8 @@ import { AppContext } from "../MyContext/AppContext";
 import "./MyAppointment.css";
 import axios from "axios";
 function MyAppointment(){
-    const{doctors,backend_url,token}=useContext(AppContext);
+    const{doctors,backend_url,token,doctorList}=useContext(AppContext);
     const[appointment,setappointment]=useState([]);
-    // console.log("appointment data:",appointment);
-
-
     function ChangeDates(slot_date){
     const Months=["","JAN","FEB","MAR","APR","MAY","JUNE","JULY","AUG","SEPT","OCT","NOV","DEC"];
     const newslotdate=slot_date.split("_");
@@ -23,6 +20,7 @@ function MyAppointment(){
             if(data.success){
                 console.log("yes appointment data is fetching")
                 setappointment(data.data.reverse())
+                
             }
         }catch(error){
             console.log("error in appointment data fetching",error);
@@ -30,11 +28,15 @@ function MyAppointment(){
 
     }
     const cancelappointment=async(_id)=>{
-       try{
+    try{
         const{data}= await axios.post(backend_url+'/api/v1/user/cancel_appointment',{_id},{headers:
-          {  token:token
+        {  
+            token:token
        }})
-       console.log("cancel appointment data",data);
+       if(data.success){
+        appointment_details();
+        doctorList();
+       }
        }catch(error){
         console.log("frontend Cancel Appointment problem",error);
        }    
@@ -44,10 +46,6 @@ function MyAppointment(){
         appointment_details();
       }
     },[token])
-
-
-
-
     return(
         <div className="myappointment_container">
            <h1 className="myappointment_heading">My Appointemnt </h1>
